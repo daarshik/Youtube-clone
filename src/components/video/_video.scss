@@ -42,6 +42,11 @@
   &__details {
     display: flex;
     align-items: center;
+    justify-content: start;
+    
+    span {
+      padding: 0.2rem;
+    }
   }
 
   &__channel {

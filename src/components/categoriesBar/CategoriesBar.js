@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import "./_categoriesBar.scss"
+import { useDispatch } from 'react-redux';
+import { getVideoByCategory } from '../../redux/slices/videoslices';
 
 const keywords = [
   'All',
@@ -24,8 +26,11 @@ const keywords = [
 const CategoriesBar = () => {
 
   const [activeElement, setActiveElement] = useState();
-
-  const handleClick = (i) => setActiveElement(i);
+  // const dispatch = useDispatch();
+  const handleClick = (value) => {
+    setActiveElement(value);
+    // dispatch(getVideoByCategory(value));
+  }
 
 
   return (

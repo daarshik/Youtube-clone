@@ -24,7 +24,7 @@ export const getPopularVideo = createAsyncThunk(
            return data;
               } 
                catch (error) {
-            console.log("Hiiiiiiiiiiiiii!!")
+            // console.log("Hiiiiiiiiiiiiii!!")
             if (!error?.response) {
                 
               throw error;
@@ -36,6 +36,39 @@ export const getPopularVideo = createAsyncThunk(
         }
 )
 
+// export const getVideoByCategory = createAsyncThunk(
+//     "video/getVideoByCategory",
+//     async (keyword, { rejectWithValue, getState, dispatch }) => {
+//         // console.log("gbsbsr")   
+        
+//               try{
+//                 const { data }= await axios.get('https://youtube.googleapis.com/youtube/v3/search', {
+//                 params :  {
+//                     key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+//                     part: 'snippet',
+//                     maxResults: 20,
+//                     pageToken:getState().video.nextPageToken,
+//                     q: keyword,
+//                     type: 'video'
+//                 }
+//             })
+//            console.log(data);
+//         //    console.log("gbsbsr")
+//            return data;
+//               } 
+//                catch (error) {
+//             // console.log("Hiiiiiiiiiiiiii!!")
+//             if (!error?.response) {
+                
+//               throw error;
+//             }
+//             return rejectWithValue(error.response.data);
+//           }
+            
+            
+//         }
+// )
+
 
 
 
@@ -43,13 +76,37 @@ export const getPopularVideo = createAsyncThunk(
 const videoSlice = createSlice({
     name: 'video',
     initialState: {
-        popularVideo: []
+        popularVideo: {
+            items: [
+                {
+                    id: '',
+                    snippet: {
+                        channelId: '',
+                        channelTitle: '',
+                        title: '',
+                        publishedAt: '',
+                        thumbnails: { 
+                            medium: ''
+                        }
+                    }
+                }
+            ],
+            // nextPageToken: null,
+            // activeCategory: 'All'
+        },
+
     },
     extraReducers: (builder) => {
         builder.addCase(getPopularVideo.fulfilled, (state, action) => {
-            console.log(action.payload);
-            state.popularVideo.push(action.payload);
+            // console.log(action.payload.items);
+            
+            state.popularVideo.items=action.payload.items;
+            // state.popularVideo.nextPageToken=action.payload.nextPageToken;
+            
         })
+        // builder.addCase(getVideoByCategory.fulfilled, (state, action) => {
+        //     state.popularVideo.activeCategory=action.payload.category;
+        // })
     }
 })
 

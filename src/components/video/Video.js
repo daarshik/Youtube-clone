@@ -1,30 +1,92 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./_video.scss"
 import { AiFillEye } from 'react-icons/ai'
+import { useSelector } from 'react-redux'
+import axios from 'axios'
+import moment from 'moment'
+import numeral from 'numeral'
 
-const video = () => {
+const Video = ({item}) => {
+
+  const {
+    id,
+    snippet: {
+      channelId,
+      channelTitle,
+      title,
+      publlishedAt,
+      thumbnails: {
+        medium
+      }
+    }
+  } = item;
+  
+
+  useEffect(() => {
+    const get_video_details = async () => {
+      const res= await axios.get('https://youtube.googleapis.com/youtube/v3/videos', {
+          params :  {
+            key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+            part: 'contentDetails,statistics',
+            id:id
+          }
+          })
+        const { data: {items}} = res;
+        // console.log(items);
+      setDuration(items[0].contentDetails.duration);
+      setViews(items[0].statistics.viewCount);
+      }
+  get_video_details();
+},[]);
+
+useEffect(() => {
+  const get_channels_icons = async () => {
+    const res= await axios.get('https://youtube.googleapis.com/youtube/v3/channels', {
+        params :  {
+          key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+          part: 'snippet',
+          id:channelId
+        }
+        })
+      const { data: {items}} = res;
+      // console.log(items);
+      setChannelIcons(items[0].snippet.thumbnails.default);
+    }
+    get_channels_icons();
+},[]);
+
+  const [views, setViews] = useState(null);
+  const [duration, setDuration] = useState(null);
+  const [channelIcons, setChannelIcons] = useState(null);
+
+
+  const seconds = moment.duration(duration).asSeconds;
+  const _duration = moment.utc(seconds * 1000).format("mm:ss")
+
+
   return (
     <div className="video">
       <div className="video__top">
-        <img src='https://i.ytimg.com/vi/8SjJBcQsHO8/hq720.jpg?sqp=-…AHAAQbQAQE=&rs=AOn4CLAKeDHvSofdftl_uBEB8HcKHlP2XQ' alt=''/>
-        <span>05:43</span>
+        <img src={medium.url} alt=''/>
+        <span>{_duration}</span>
       </div>
       <div className="video__title">
-        Create app in 5 minutes by Ana de armas
+        {title}
       </div>
       <div className="video__details">
         <span>
         <AiFillEye />
-        5m views •
+        {numeral(views).format('0.a')} views 
         </span>
-        <span>5 days ago</span> 
+        <span>•</span>
+        <span>{moment(publlishedAt).fromNow()}</span> 
       </div>
       <div className="video__channel">
-        <img src='https://yt3.ggpht.com/ytc/AOPolaRZ8ouNUYr0bapLKJVbD5-rzuREVNnVXyPJjd4Otg=s68-c-k-c0x00ffffff-no-rj' alt=''/>
-        <p>Rainbow Hat Jr</p>
+        <img src={channelIcons?.url} alt=''/>
+        <p>{channelTitle}</p>
       </div>
     </div>
   )
 }
 
-export default video
+export default Video
