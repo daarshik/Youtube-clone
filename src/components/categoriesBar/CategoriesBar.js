@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./_categoriesBar.scss"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getVideoByCategory } from '../../redux/slices/videoslices';
 
 const keywords = [
@@ -26,22 +26,22 @@ const keywords = [
 const CategoriesBar = () => {
 
   const [activeElement, setActiveElement] = useState();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const handleClick = (value) => {
+    console.log(value);
     setActiveElement(value);
-    // dispatch(getVideoByCategory(value));
+    dispatch(getVideoByCategory(value));
   }
 
-
+  const {items} = useSelector((state)=>(state.video.popularVideo))
   return (
     <div className='categoriesBar'>
       {keywords.map((item, i) => (
         <span key={i} 
-        onClick = {() => handleClick(i)}
+        onClick = {() => handleClick(item)}
         className={activeElement == i? 'active' : ''}
         >{item}</span>
       ))}
-      
     </div>
   )
 }
