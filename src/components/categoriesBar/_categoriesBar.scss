@@ -10,7 +10,7 @@
   &::-webkit-scrollbar {
     width: 0px;
   }
-//   for making scrollbar unvisible in firefox
+  //   for making scrollbar unvisible in firefox
   scrollbar-width: none;
   span {
     margin-right: 1rem;
@@ -19,15 +19,16 @@
     white-space: nowrap;
     border: 1.5px solid $text-color;
     border-radius: 999px;
+    cursor: pointer;
 
     &:hover {
-        background-color: #374a59;
+      background-color: #374a59;
     }
 
     &.active {
-        color: #fff;
-        background-color: #606060;
-        border-color: $border-color;
+      color: #fff;
+      background-color: #606060;
+      border-color: $border-color;
     }
   }
 }

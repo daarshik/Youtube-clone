@@ -8,8 +8,11 @@
     background-color: $black-primary;
     height: 10vh;
     width: 100%;
-
+    z-index: 999;
+    position: fixed;
+    top: 0;
     &__menu {
+        margin-left: 0;
         display: none;
     }
 
@@ -25,8 +28,8 @@
         display: flex;
         padding: 0.1rem;
         margin: 0.1rem;
-        border-radius: 3px;
-        border: 1.2px solid;
+        border-radius: 70px;
+        border: 1px solid;
         background-color: $black-secondary;
 
         input {
@@ -35,7 +38,7 @@
             font-weight: 500;
             background: transparent;
             padding: 0.3rem;
-            color: $text-color;
+            color: #121212;
 
             &:focus {
                 outline: none;
@@ -45,12 +48,15 @@
         button {
             padding: 0 1.25rem;
             color: $text-color;
-            background: transparent;
+            background: #FFFFFF14;
             border: none;
             
             &:focus {
                 border: none;
             } 
+            &:hover {
+                cursor: pointer;
+            }
         }
 
 
@@ -59,7 +65,7 @@
     &__icons {
         flex: 0.15;
         display: flex;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: center;
         img {
             border-radius: 50%;
@@ -76,10 +82,29 @@
         padding: 1rem;
         
         form {
-            flex: 1;
+            // border: none;
+            // padding: 0rem;
+            // margin: 0rem;
+            // flex: 0;
+            // input {
+                
+            //     display: none;
+            // }
+
+            // button {
+                
+            //     border: none;
+            //     background-color: $black-primary;
+            //     align-items: center;
+            // }
+            flex: 0.6;
+            
         }
         
         &__menu {
+            
+            
+            
             display: block;
         }
     
@@ -92,3 +117,4 @@
         }
     }
 }
+

@@ -7,8 +7,6 @@ import numeral from 'numeral'
 
 const Video = ({item}) => {
 
-  
-
   const {
     id,
     snippet: {
@@ -50,7 +48,7 @@ const Video = ({item}) => {
       }
     };
     getVideoDetails();
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     const getChannelsIcons = async () => {

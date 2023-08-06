@@ -22,7 +22,7 @@ const Header = ({handleToggleSidebar}) => {
     <form>
         <input type='text' placeholder='Search'/>
         <button type='submit'>
-            <AiOutlineSearch size={22}/>
+            <AiOutlineSearch size={22} />
         </button>
     </form>
 
