@@ -12,7 +12,8 @@ export const getPopularVideo = createAsyncThunk(
         "https://youtube.googleapis.com/youtube/v3/videos",
         {
           params: {
-            key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+            // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
             part: "snippet, contentDetails,statistics",
             chart: "mostPopular",
             regionCode: "IN",
@@ -38,23 +39,26 @@ export const getPopularVideo = createAsyncThunk(
 export const getVideoByCategory = createAsyncThunk(
   "video/getVideoByCategory",
   async (keyword, { rejectWithValue, getState, dispatch }) => {
-    // console.log("gbsbsr")
+    // console.log("gbsbsr");
 
     try {
       const { data } = await axios.get(
         "https://youtube.googleapis.com/youtube/v3/search",
         {
           params: {
-            key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+            // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
             part: "snippet",
             maxResults: 20,
             pageToken: getState().video.popularVideo.nextPageToken,
+            // q: getState().video.popularVideo.activeCategory,
             q: keyword,
             type: "video",
           },
         }
       );
-      //   console.log(getState().video.popularVideo.nextPageToken);
+      //console.log(getState().video.popularVideo.nextPageToken);
+
       console.log(data);
       //    console.log("gbsbsr")
       return data;
@@ -90,20 +94,35 @@ const videoSlice = createSlice({
       activeCategory: "All",
     },
   },
+  reducers: {
+    setActiveCategory: (state, action) => {
+      state.popularVideo.activeCategory = action.payload;
+      // console.log(state.popularVideo.activeCategory);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPopularVideo.fulfilled, (state, action) => {
       //   console.log(action.payload.items);
-
-      state.popularVideo.items.push(...action.payload.items);
+      if (state.popularVideo.items && state.popularVideo.items.length > 1)
+        state.popularVideo.items.push(...action.payload.items);
+      else state.popularVideo.items = action.payload.items;
+      // state.popularVideo.items = [
+      //   ...state.popularVideo.items,
+      //   ...action.payload.items,
+      // ];
       state.popularVideo.nextPageToken = action.payload.nextPageToken;
     });
     builder.addCase(getVideoByCategory.fulfilled, (state, action) => {
-      // console.log(action.payload);
-      state.popularVideo.items.push(...action.payload.items);
+      console.log(action.payload);
+
+      // state.popularVideo.items = [
+      //   ...state.popularVideo.items,
+      //   ...action.payload.items,
+      // ];
+      state.popularVideo.items = action.payload.items;
       state.popularVideo.nextPageToken = action.payload.nextPageToken;
-      //   state.popularVideo.activeCategory = action.payload;
     });
   },
 });
-
+export const { setActiveCategory } = videoSlice.actions;
 export default videoSlice.reducer;

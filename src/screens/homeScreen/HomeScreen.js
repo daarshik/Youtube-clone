@@ -3,15 +3,21 @@ import { Col, Container, Row } from "react-bootstrap";
 import CategoriesBar from "../../components/categoriesBar/CategoriesBar";
 import Video from "../../components/video/Video";
 import { useDispatch, useSelector } from "react-redux";
-import { getPopularVideo } from "../../redux/slices/videoslices";
+import {
+  getPopularVideo,
+  getVideoByCategory,
+} from "../../redux/slices/videoslices";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
+
+  const { items, activeCategory } = useSelector(
+    (state) => state.video.popularVideo
+  );
+
   useEffect(() => {
     dispatch(getPopularVideo());
   }, [dispatch]);
-
-  const { items } = useSelector((state) => state.video.popularVideo);
 
   const handelInfiniteScroll = async () => {
     // console.log("scrollHeight" + document.documentElement.scrollHeight);
@@ -22,7 +28,8 @@ const HomeScreen = () => {
         window.innerHeight + document.documentElement.scrollTop + 1 >=
         document.documentElement.scrollHeight
       ) {
-        await dispatch(getPopularVideo());
+        if (activeCategory === "All") dispatch(getPopularVideo());
+        else dispatch(getVideoByCategory(activeCategory));
       }
     } catch (error) {
       console.log(error);

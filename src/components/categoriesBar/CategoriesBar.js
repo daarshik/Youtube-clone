@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getPopularVideo,
   getVideoByCategory,
+  setActiveCategory,
 } from "../../redux/slices/videoslices";
 
 const keywords = [
@@ -31,8 +32,10 @@ const CategoriesBar = () => {
   const dispatch = useDispatch();
   const handleClick = (value) => {
     setActiveElement(value);
-    // if (value == "All") dispatch(getPopularVideo());
-    dispatch(getVideoByCategory(value));
+
+    dispatch(setActiveCategory(value));
+    if (value === "All") dispatch(getPopularVideo());
+    else dispatch(getVideoByCategory(value));
   };
 
   return (
