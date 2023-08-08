@@ -13,7 +13,8 @@ export const getPopularVideo = createAsyncThunk(
         {
           params: {
             // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
             part: "snippet, contentDetails,statistics",
             chart: "mostPopular",
             regionCode: "IN",
@@ -47,7 +48,8 @@ export const getVideoByCategory = createAsyncThunk(
         {
           params: {
             // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
             part: "snippet",
             maxResults: 20,
             pageToken: getState().video.popularVideo.nextPageToken,
@@ -57,13 +59,36 @@ export const getVideoByCategory = createAsyncThunk(
           },
         }
       );
-      //console.log(getState().video.popularVideo.nextPageToken);
 
-      console.log(data);
-      //    console.log("gbsbsr")
       return data;
     } catch (error) {
-      // console.log("Hiiiiiiiiiiiiii!!")
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getVideoById = createAsyncThunk(
+  "video/getVideoById",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(
+        "https://youtube.googleapis.com/youtube/v3/videos",
+        {
+          params: {
+            // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            part: "snippet, statistics",
+            id: id,
+          },
+        }
+      );
+      // console.log(data);
+      return data;
+    } catch (error) {
       if (!error?.response) {
         throw error;
       }
@@ -93,6 +118,7 @@ const videoSlice = createSlice({
       nextPageToken: null,
       activeCategory: "All",
     },
+    videoDetails: {},
   },
   reducers: {
     setActiveCategory: (state, action) => {
@@ -102,7 +128,6 @@ const videoSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getPopularVideo.fulfilled, (state, action) => {
-      //   console.log(action.payload.items);
       if (state.popularVideo.items && state.popularVideo.items.length > 1)
         state.popularVideo.items.push(...action.payload.items);
       else state.popularVideo.items = action.payload.items;
@@ -113,7 +138,7 @@ const videoSlice = createSlice({
       state.popularVideo.nextPageToken = action.payload.nextPageToken;
     });
     builder.addCase(getVideoByCategory.fulfilled, (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
 
       // state.popularVideo.items = [
       //   ...state.popularVideo.items,
@@ -122,7 +147,12 @@ const videoSlice = createSlice({
       state.popularVideo.items = action.payload.items;
       state.popularVideo.nextPageToken = action.payload.nextPageToken;
     });
+    builder.addCase(getVideoById.fulfilled, (state, action) => {
+      // console.log(state.popularVideo.videoDetails);
+      state.videoDetails = action.payload.items[0];
+    });
   },
 });
+
 export const { setActiveCategory } = videoSlice.actions;
 export default videoSlice.reducer;

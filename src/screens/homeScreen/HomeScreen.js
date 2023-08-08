@@ -46,6 +46,7 @@ const HomeScreen = () => {
       <CategoriesBar />
       <Row>
         {items.map((item, index) => {
+          if (index === 0) return null;
           return (
             <Col lg={3} md={4} key={index}>
               <Video item={item} />

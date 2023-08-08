@@ -1,0 +1,77 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const getCommentVideoById = createAsyncThunk(
+  "comment/getCommentVideoById",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(
+        "https://youtube.googleapis.com/youtube/v3/commentThreads",
+        {
+          params: {
+            // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            part: "snippet",
+            videoId: id,
+          },
+        }
+      );
+      //   console.log(data);
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const addComment = createAsyncThunk(
+  "comment/addComment",
+  async (value, { rejectWithValue, getState, dispatch }) => {
+    try {
+      console.log(value);
+      console.log(getState().userinfo.accessToken);
+      await axios.post(
+        "https://youtube.googleapis.com/youtube/v3/commentThreads",
+        value,
+        {
+          params: {
+            // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            part: "snippet",
+          },
+          headers: {
+            Authorization: `Bearer ${getState().userinfo.accessToken}`,
+          },
+        }
+      );
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+const commentSlice = createSlice({
+  name: "comment",
+  initialState: {
+    comments: {
+      items: [],
+    },
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getCommentVideoById.fulfilled, (state, action) => {
+      //   console.log(action.payload);
+      state.comments.items = action.payload.items;
+    });
+  },
+});
+
+export default commentSlice.reducer;

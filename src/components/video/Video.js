@@ -4,6 +4,7 @@ import { AiFillEye } from "react-icons/ai";
 import axios from "axios";
 import moment from "moment";
 import numeral from "numeral";
+import { useNavigate } from "react-router-dom";
 
 const Video = ({ item }) => {
   const {
@@ -26,6 +27,7 @@ const Video = ({ item }) => {
             params: {
               // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
               // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+              key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
               part: "contentDetails,statistics",
               id: id?.videoId ?? id,
             },
@@ -61,7 +63,8 @@ const Video = ({ item }) => {
           {
             params: {
               // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-              key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+              // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+              key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
               part: "snippet",
               id: channelId,
             },
@@ -92,9 +95,13 @@ const Video = ({ item }) => {
 
   const seconds = moment.duration(duration).asSeconds();
   const _duration = moment.utc(seconds * 1000).format("mm:ss");
+  const navigate = useNavigate();
+  const handleVideoClick = () => {
+    navigate(`/watch/${id}`);
+  };
 
   return (
-    <div className="video">
+    <div className="video" onClick={handleVideoClick}>
       <div className="video__top">
         <img src={medium?.url} alt="" />
         <span>{_duration}</span>
