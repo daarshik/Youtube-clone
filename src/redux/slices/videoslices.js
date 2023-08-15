@@ -105,16 +105,19 @@ export const getRelatedVideos = createAsyncThunk(
         "https://youtube.googleapis.com/youtube/v3/search",
         {
           params: {
+            key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
             // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
-            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
             part: "snippet",
             // relatedToVideoId: id,
+            topicId: id,
+            // q: fun,
             maxResults: 15,
             type: "video",
           },
         }
       );
-      // console.log(data);
+      console.log(data);
       return data;
     } catch (error) {
       if (!error?.response) {

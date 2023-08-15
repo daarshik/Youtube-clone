@@ -3,6 +3,7 @@ import userslices from "./slices/userslices";
 import videoslices from "./slices/videoslices";
 import channelslices from "./slices/channelslices";
 import commentslices from "./slices/commentslices";
+import searchslices from "./slices/searchslices";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     video: videoslices,
     channels: channelslices,
     commentList: commentslices,
+    searchVideo: searchslices,
   },
 });
 

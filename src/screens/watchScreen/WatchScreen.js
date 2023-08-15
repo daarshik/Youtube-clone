@@ -11,12 +11,13 @@ import { getRelatedVideos, getVideoById } from "../../redux/slices/videoslices";
 const WatchScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  const { videoDetails } = useSelector((state) => state.video);
+  const { items } = useSelector((state) => state.video.relatedVideos);
   useEffect(() => {
     dispatch(getVideoById(id));
     dispatch(getRelatedVideos(id));
   }, [id]);
-  const { videoDetails } = useSelector((state) => state.video);
-  const { items } = useSelector((state) => state.video.relatedVideos);
   return (
     <Row>
       <Col Lg={10}>

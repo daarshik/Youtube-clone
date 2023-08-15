@@ -9,14 +9,14 @@ import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "./redux/slices/userslices";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import WatchScreen from "./screens/watchScreen/WatchScreen";
+import SearchScreen from "./screens/SearchScreen";
+import SubscriptionsScreen from "./screens/subscriptionsScreen/SubscriptionsScreen";
 
 export const Layout = ({ homescreen }) => {
   const [sidebar, toggleSidebar] = useState(false);
   const { displayName } = useSelector((state) => state?.userinfo);
   const handleToggleSidebar = () => toggleSidebar((value) => !value);
-  const navigate = useNavigate();
 
   return (
     <>
@@ -35,9 +35,7 @@ export const Layout = ({ homescreen }) => {
 
 const App = () => {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector(
-    (state) => state.userinfo.isAuthenticated
-  );
+  const { isAuthenticated } = useSelector((state) => state.userinfo);
 
   useEffect(() => {
     const getUser = () => {
@@ -67,27 +65,59 @@ const App = () => {
   }, []);
 
   // console.log({displayName});
-
   return (
     <>
-      {
-        <BrowserRouter>
-          <Routes>
-            <Route
-              exact
-              path="/"
-              element={<Layout homescreen={<HomeScreen />} />}
-            />
+      (
+      <BrowserRouter>
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              isAuthenticated ? (
+                <Layout homescreen={<HomeScreen />} />
+              ) : (
+                <LoginScreen />
+              )
+            }
+          />
 
-            <Route path="/auth" element={<LoginScreen />} />
-            <Route
-              exact
-              path="/watch/:id"
-              element={<Layout homescreen={<WatchScreen />} />}
-            />
-          </Routes>
-        </BrowserRouter>
-      }
+          <Route path="/auth" element={<LoginScreen />} />
+          <Route
+            exact
+            path="/watch/:id"
+            element={
+              isAuthenticated ? (
+                <Layout homescreen={<WatchScreen />} />
+              ) : (
+                <LoginScreen />
+              )
+            }
+          />
+
+          <Route
+            path="/search/:query"
+            element={
+              isAuthenticated ? (
+                <Layout homescreen={<SearchScreen />} />
+              ) : (
+                <LoginScreen />
+              )
+            }
+          />
+          <Route
+            path="/feed/subscription"
+            element={
+              isAuthenticated ? (
+                <Layout homescreen={<SubscriptionsScreen />} />
+              ) : (
+                <LoginScreen />
+              )
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+      )
     </>
   );
 };

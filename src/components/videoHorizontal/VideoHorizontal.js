@@ -10,7 +10,7 @@ import numeral from "numeral";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const VideoHorizontal = ({ video }) => {
+const VideoHorizontal = ({ video, searchScreen }) => {
   const {
     id,
     snippet: {
@@ -99,28 +99,43 @@ const VideoHorizontal = ({ video }) => {
     getChannelsIcons();
   }, [channelId]);
 
+  const isVideo = id?.kind === "youtube#video";
   const seconds = moment.duration(duration).asSeconds();
   const _duration = moment.utc(seconds * 1000).format("mm:ss");
   const handleClick = () => {
-    navigate(`/watch/${id.videoId}`);
+    isVideo
+      ? navigate(`/watch/${id.videoId}`)
+      : navigate(`/channel/${channelId}`);
   };
+
+  const thumbnail = !isVideo && "videoHorizontal_thumbnail-channel";
   return (
     <Row
-      className="videoHorizontal m-1 py-2 align-align-items-center"
+      className="videoHorizontal m-1 py-2 align-items-center"
       onClick={handleClick}
     >
       <Col xs={6} md={4} className="videoHorizontal__left">
-        <img src={high.url} alt="" className="videoHorizontal__thumbnail" />
-        <span className="videoHorizontal__duration">{_duration}</span>
+        <img
+          src={high.url}
+          alt=""
+          className={`videoHorizontal__thumbnail ${thumbnail}`}
+        />
+        {isVideo && (
+          <span className="videoHorizontal__duration">{_duration}</span>
+        )}
       </Col>
       <Col xs={6} md={8} className="videoHorizontal__right p-0">
         <p className="videoHorizontal__title mb-1">{title}</p>
-        <div className="videoHorizontal__details">
-          <AiFillEye /> {numeral(views).format("0.a")} Views •
-          {moment(publishedAt).fromNow()}
-        </div>
-
+        {isVideo && (
+          <div className="videoHorizontal__details">
+            <AiFillEye /> {numeral(views).format("0.a")} Views •
+            {moment(publishedAt).fromNow()}
+          </div>
+        )}
+        {/* {isVideo && <p className="mt-1">{description}</p>}*/}
         <div className="videoHorizontal__channel d-flex align-items-center my-1">
+          {isVideo && <img src={channelIcons?.url} />}
+
           <p className="mb-0">{channelTitle}</p>
         </div>
       </Col>

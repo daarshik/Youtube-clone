@@ -9,13 +9,17 @@
   &__left {
     position: relative;
     text-align: center;
-   
   }
 
   &__thumbnail {
     width: 100%;
     height: 100%;
     object-fit: cover;
+
+    &-channel {
+      width: 50%;
+      border-radius: 50%;
+    }
   }
 
   &__duration {
