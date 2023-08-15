@@ -13,8 +13,8 @@ export const getPopularVideo = createAsyncThunk(
         {
           params: {
             // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
-            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
             part: "snippet, contentDetails,statistics",
             chart: "mostPopular",
             regionCode: "IN",
@@ -48,8 +48,8 @@ export const getVideoByCategory = createAsyncThunk(
         {
           params: {
             // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
-            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
             part: "snippet",
             maxResults: 20,
             pageToken: getState().video.popularVideo.nextPageToken,
@@ -79,8 +79,8 @@ export const getVideoById = createAsyncThunk(
         {
           params: {
             // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
-            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
             part: "snippet, statistics",
             id: id,
           },
@@ -105,7 +105,8 @@ export const getRelatedVideos = createAsyncThunk(
         "https://youtube.googleapis.com/youtube/v3/search",
         {
           params: {
-            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
             part: "snippet",
             // relatedToVideoId: id,
             maxResults: 15,

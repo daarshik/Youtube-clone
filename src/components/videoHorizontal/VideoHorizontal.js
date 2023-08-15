@@ -8,6 +8,7 @@ import moment from "moment";
 import numeral from "numeral";
 
 import { Col, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const VideoHorizontal = ({ video }) => {
   const {
@@ -18,12 +19,15 @@ const VideoHorizontal = ({ video }) => {
       description,
       title,
       publishedAt,
-      thumbnails,
+      thumbnails: { high },
     },
   } = video;
+
   const [views, setViews] = useState(0);
   const [duration, setDuration] = useState("");
   const [channelIcons, setChannelIcons] = useState(null);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const getVideoDetails = async () => {
       try {
@@ -32,8 +36,8 @@ const VideoHorizontal = ({ video }) => {
           {
             params: {
               // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-              // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
-              key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+              key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+              // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
               part: "contentDetails,statistics",
               id: id?.videoId ?? id,
             },
@@ -69,8 +73,8 @@ const VideoHorizontal = ({ video }) => {
           {
             params: {
               // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-              // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
-              key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+              key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+              // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
               part: "snippet",
               id: channelId,
             },
@@ -94,30 +98,30 @@ const VideoHorizontal = ({ video }) => {
     };
     getChannelsIcons();
   }, [channelId]);
-  const seconds = moment.duration("100").asSeconds();
-  const _duration = moment.utc(seconds * 1000).format("mm:ss");
 
+  const seconds = moment.duration(duration).asSeconds();
+  const _duration = moment.utc(seconds * 1000).format("mm:ss");
+  const handleClick = () => {
+    navigate(`/watch/${id.videoId}`);
+  };
   return (
-    <Row className="videoHorizontal m-1 py-2 align-align-items-center">
-      <img
-        src="https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
-        alt=""
-        className="videoHorizontal__thumbnail"
-      />
+    <Row
+      className="videoHorizontal m-1 py-2 align-align-items-center"
+      onClick={handleClick}
+    >
       <Col xs={6} md={4} className="videoHorizontal__left">
-        <span className="video__top__duration">{_duration}</span>
+        <img src={high.url} alt="" className="videoHorizontal__thumbnail" />
+        <span className="videoHorizontal__duration">{_duration}</span>
       </Col>
       <Col xs={6} md={8} className="videoHorizontal__right p-0">
-        <p className="videoHorizontal__title mb-1">
-          Be a full stack developer in 1 month
-        </p>
+        <p className="videoHorizontal__title mb-1">{title}</p>
         <div className="videoHorizontal__details">
-          <AiFillEye /> {numeral(1000000).format("0.a")} Views •
-          {moment("2020-06-09").fromNow()}
+          <AiFillEye /> {numeral(views).format("0.a")} Views •
+          {moment(publishedAt).fromNow()}
         </div>
 
         <div className="videoHorizontal__channel d-flex align-items-center my-1">
-          <p>Itachi Uchiha</p>
+          <p className="mb-0">{channelTitle}</p>
         </div>
       </Col>
     </Row>

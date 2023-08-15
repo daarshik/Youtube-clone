@@ -2,27 +2,27 @@
 
 .videoHorizontal {
   border-bottom: 0.3px solid $border-color;
-
+  // display: flex;
+  // flex-direction: row;
   cursor: pointer;
 
   &__left {
     position: relative;
     text-align: center;
+   
   }
 
   &__thumbnail {
-    
-        width: 50px;
-        height: 50px;
-        object-fit: contain;
-      
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   &__duration {
     position: absolute;
 
-    bottom: 0.3rem;
-    right: 0.3rem;
+    bottom: 0.5rem;
+    right: 1.2rem;
 
     padding: 0.2rem;
     background: #080808ec;
@@ -39,7 +39,7 @@
     color: #fff;
     letter-spacing: 0.3px;
 
-    @include line-clamp(1);
+    @include line-clamp(2);
   }
 
   &__channel {
