@@ -6,15 +6,17 @@ import Comments from "../../components/comments/Comments";
 import MetaDataVideo from "../../components/metaDataVideo/MetaDataVideo";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getVideoById } from "../../redux/slices/videoslices";
+import { getRelatedVideos, getVideoById } from "../../redux/slices/videoslices";
 
 const WatchScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getVideoById(id));
-  }, []);
+    dispatch(getRelatedVideos(id));
+  }, [id]);
   const { videoDetails } = useSelector((state) => state.video);
+  const { items } = useSelector((state) => state.video.relatedVideos);
   return (
     <Row>
       <Col Lg={10}>
@@ -28,13 +30,18 @@ const WatchScreen = () => {
           ></iframe>
         </div>
         <MetaDataVideo item={videoDetails} />
-        <Comments channelId={videoDetails?.snippet?.channelId} videoId={id} />
+        <Comments
+          videoId={id}
+          totalComments={videoDetails?.statistics?.commentCount}
+        />
       </Col>
 
       <Col Lg={2}>
-        {[...Array(10)].map(() => (
-          <VideoHorizontal />
-        ))}
+        {items
+          ?.filter((video) => video.snippet)
+          .map((video) => (
+            <VideoHorizontal video={video} key={video.id.videoId} />
+          ))}
       </Col>
     </Row>
   );

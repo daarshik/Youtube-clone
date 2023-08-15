@@ -7,7 +7,7 @@ import {
   getCommentVideoById,
 } from "../../redux/slices/commentslices";
 
-const Comments = ({ channelId, videoId }) => {
+const Comments = ({ videoId, totalComments }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,22 +24,13 @@ const Comments = ({ channelId, videoId }) => {
   const handleComment = (e) => {
     e.preventDefault();
     if (text.length === 0) return;
-    const obj = {
-      snippet: {
-        channelId: channelId,
-        videoId: videoId,
-        topLevelComment: {
-          snippet: {
-            textOriginal: text,
-          },
-        },
-      },
-    };
-    dispatch(addComment(obj));
+    console.log(videoId);
+    dispatch(addComment({ videoId, text }));
+    setText("");
   };
   return (
     <div className="comments">
-      <p>1234 Comments</p>
+      <p>{totalComments} Comments</p>
       <div className="comments__form d-flex w-100 my-2">
         <img
           src="https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"

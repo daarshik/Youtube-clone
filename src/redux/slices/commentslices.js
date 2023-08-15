@@ -30,18 +30,26 @@ export const getCommentVideoById = createAsyncThunk(
 
 export const addComment = createAsyncThunk(
   "comment/addComment",
-  async (value, { rejectWithValue, getState, dispatch }) => {
+  async ({ videoId, text }, { rejectWithValue, getState, dispatch }) => {
     try {
-      console.log(value);
+      console.log(videoId);
+      const obj = {
+        snippet: {
+          videoId: videoId,
+          topLevelComment: {
+            snippet: {
+              textOriginal: text,
+            },
+          },
+        },
+      };
+      console.log(obj);
       console.log(getState().userinfo.accessToken);
-      await axios.post(
+      const { data } = await axios.post(
         "https://youtube.googleapis.com/youtube/v3/commentThreads",
-        value,
+        obj,
         {
           params: {
-            // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
-            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
             part: "snippet",
           },
           headers: {
@@ -49,6 +57,10 @@ export const addComment = createAsyncThunk(
           },
         }
       );
+      // console.log(data);
+      setTimeout(() => dispatch(getCommentVideoById(videoId)), 3000);
+
+      return data;
     } catch (error) {
       if (!error?.response) {
         throw error;
@@ -70,6 +82,10 @@ const commentSlice = createSlice({
     builder.addCase(getCommentVideoById.fulfilled, (state, action) => {
       //   console.log(action.payload);
       state.comments.items = action.payload.items;
+    });
+    builder.addCase(addComment.fulfilled, (state, action) => {
+      // console.log(action.payload);
+      state.comments.items.push(action.payload);
     });
   },
 });

@@ -97,6 +97,33 @@ export const getVideoById = createAsyncThunk(
   }
 );
 
+export const getRelatedVideos = createAsyncThunk(
+  "video/getRelatedVideos",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(
+        "https://youtube.googleapis.com/youtube/v3/search",
+        {
+          params: {
+            key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            part: "snippet",
+            // relatedToVideoId: id,
+            maxResults: 15,
+            type: "video",
+          },
+        }
+      );
+      // console.log(data);
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const videoSlice = createSlice({
   name: "video",
   initialState: {
@@ -119,6 +146,9 @@ const videoSlice = createSlice({
       activeCategory: "All",
     },
     videoDetails: {},
+    relatedVideos: {
+      items: [],
+    },
   },
   reducers: {
     setActiveCategory: (state, action) => {
@@ -150,6 +180,10 @@ const videoSlice = createSlice({
     builder.addCase(getVideoById.fulfilled, (state, action) => {
       // console.log(state.popularVideo.videoDetails);
       state.videoDetails = action.payload.items[0];
+    });
+    builder.addCase(getRelatedVideos.fulfilled, (state, action) => {
+      console.log(action.payload);
+      state.relatedVideos.items.push(...action.payload.items);
     });
   },
 });

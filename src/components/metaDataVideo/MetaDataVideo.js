@@ -13,9 +13,8 @@ const MetaDataVideo = ({ item }) => {
   const { channelInfo } = useSelector((state) => state?.channels);
 
   useEffect(() => {
-    console.log(item?.snippet?.channelId);
     dispatch(getChannelDetails(item?.snippet?.channelId));
-  }, []);
+  }, [item?.snippet?.channelId]);
 
   return (
     <div className="videoData py-2">
