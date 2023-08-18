@@ -45,6 +45,9 @@
 
     @include line-clamp(2);
   }
+  &__desc {
+    @include line-clamp(2);
+  }
 
   &__channel {
     img {
@@ -80,9 +83,9 @@
       }
     }
 
-    //   &__desc {
-    //      display: none;
-    //   }
+    &__desc {
+      display: none;
+    }
 
     &__title {
       font-size: 1rem;

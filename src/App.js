@@ -13,6 +13,7 @@ import WatchScreen from "./screens/watchScreen/WatchScreen";
 import SearchScreen from "./screens/SearchScreen";
 import SubscriptionsScreen from "./screens/subscriptionsScreen/SubscriptionsScreen";
 import Loader from "./components/loader/Loader";
+import ChannelScreen from "./screens/channelScreen/ChannelScreen";
 
 export const Layout = ({ homescreen }) => {
   const [sidebar, toggleSidebar] = useState(false);
@@ -110,6 +111,16 @@ const App = () => {
             element={
               isAuthenticated ? (
                 <Layout homescreen={<SubscriptionsScreen />} />
+              ) : (
+                <LoginScreen />
+              )
+            }
+          />
+          <Route
+            path="/channel/:channelId"
+            element={
+              isAuthenticated ? (
+                <Layout homescreen={<ChannelScreen />} />
               ) : (
                 <LoginScreen />
               )

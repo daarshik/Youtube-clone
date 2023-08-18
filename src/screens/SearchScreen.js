@@ -5,24 +5,29 @@ import { getVideoBySearch } from "../redux/slices/searchslices";
 import { Container } from "react-bootstrap";
 import VideoHorizontal from "../components/videoHorizontal/VideoHorizontal";
 import { useSelector } from "react-redux";
+import Loader from "../components/loader/Loader";
 
 const SearchScreen = () => {
   const { query } = useParams();
   const dispatch = useDispatch();
 
-  console.log(query);
+  // console.log(query);
 
   useEffect(() => {
     dispatch(getVideoBySearch(query));
   }, [query, dispatch]);
 
-  const { items } = useSelector((state) => state.searchVideo);
+  const { items, loading } = useSelector((state) => state.searchVideo);
 
   return (
     <Container>
-      {items?.map((video) => (
-        <VideoHorizontal video={video} key={video.id.videoId} searchScreen />
-      ))}
+      {loading ? (
+        items?.map((video) => (
+          <VideoHorizontal video={video} key={video.id.videoId} searchScreen />
+        ))
+      ) : (
+        <Loader />
+      )}
     </Container>
   );
 };

@@ -18,7 +18,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     dispatch(getPopularVideo());
-  }, [dispatch]);
+  }, []);
 
   const handelInfiniteScroll = async () => {
     // console.log("scrollHeight" + document.documentElement.scrollHeight);

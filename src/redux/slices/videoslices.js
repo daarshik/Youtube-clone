@@ -2,16 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import video from "../../components/video/Video";
 
-const apiKey = "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA";
-
-// "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",;
-// AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0
+const apiKey = "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0";
+// "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA";
+//"AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE"
+//
 
 export const getPopularVideo = createAsyncThunk(
   "video/getPopularVideo",
   async (video, { rejectWithValue, getState, dispatch }) => {
-    // console.log("gbsbsr")
-
     try {
       const { data } = await axios.get(
         "https://youtube.googleapis.com/youtube/v3/videos",
@@ -28,11 +26,9 @@ export const getPopularVideo = createAsyncThunk(
         }
       );
       //   console.log(getState().video.popularVideo.nextPageToken);
-      //   console.log(data);
-      //    console.log("gbsbsr")
+
       return data;
     } catch (error) {
-      // console.log("Hiiiiiiiiiiiiii!!")
       if (!error?.response) {
         throw error;
       }
@@ -44,8 +40,6 @@ export const getPopularVideo = createAsyncThunk(
 export const getVideoByCategory = createAsyncThunk(
   "video/getVideoByCategory",
   async (keyword, { rejectWithValue, getState, dispatch }) => {
-    // console.log("gbsbsr");
-
     try {
       const { data } = await axios.get(
         "https://youtube.googleapis.com/youtube/v3/search",
@@ -88,7 +82,7 @@ export const getVideoById = createAsyncThunk(
           },
         }
       );
-      // console.log(data);
+
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -161,7 +155,6 @@ const videoSlice = createSlice({
   reducers: {
     setActiveCategory: (state, action) => {
       state.popularVideo.activeCategory = action.payload;
-      // console.log(state.popularVideo.activeCategory);
     },
   },
   extraReducers: (builder) => {
@@ -169,16 +162,11 @@ const videoSlice = createSlice({
       if (state.popularVideo.items && state.popularVideo.items.length > 1)
         state.popularVideo.items.push(...action.payload.items);
       else state.popularVideo.items = action.payload.items;
-      // state.popularVideo.items = [
-      //   ...state.popularVideo.items,
-      //   ...action.payload.items,
-      // ];
+
       state.popularVideo.loading = true;
       state.popularVideo.nextPageToken = action.payload.nextPageToken;
     });
     builder.addCase(getVideoByCategory.fulfilled, (state, action) => {
-      // console.log(action.payload);
-
       // state.popularVideo.items = [
       //   ...state.popularVideo.items,
       //   ...action.payload.items,

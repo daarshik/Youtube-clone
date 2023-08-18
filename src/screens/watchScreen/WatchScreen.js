@@ -7,20 +7,21 @@ import MetaDataVideo from "../../components/metaDataVideo/MetaDataVideo";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getRelatedVideos, getVideoById } from "../../redux/slices/videoslices";
+import Loader from "../../components/loader/Loader";
 
 const WatchScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
   const { videoDetails } = useSelector((state) => state.video);
-  const { items } = useSelector((state) => state.video.relatedVideos);
+  const { items, loading } = useSelector((state) => state.video.relatedVideos);
   useEffect(() => {
     dispatch(getVideoById(id));
     dispatch(getRelatedVideos(id));
   }, [id]);
   return (
     <Row>
-      <Col Lg={10}>
+      <Col Lg={8}>
         <div className="watchScreen__player">
           <iframe
             src={`https://www.youtube.com/embed/${id}`}
@@ -37,12 +38,16 @@ const WatchScreen = () => {
         />
       </Col>
 
-      <Col Lg={2}>
-        {items
-          ?.filter((video) => video.snippet)
-          .map((video) => (
-            <VideoHorizontal video={video} key={video.id.videoId} />
-          ))}
+      <Col Lg={4}>
+        {loading ? (
+          items
+            ?.filter((video) => video.snippet)
+            .map((video) => (
+              <VideoHorizontal video={video} key={video.id.videoId} />
+            ))
+        ) : (
+          <Loader />
+        )}
       </Col>
     </Row>
   );

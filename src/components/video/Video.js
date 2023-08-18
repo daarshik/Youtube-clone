@@ -25,8 +25,8 @@ const Video = ({ item }) => {
           "https://youtube.googleapis.com/youtube/v3/videos",
           {
             params: {
-              // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-              key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+              key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+              // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
               // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
               part: "contentDetails,statistics",
               id: id?.videoId ?? id,
@@ -62,8 +62,8 @@ const Video = ({ item }) => {
           "https://youtube.googleapis.com/youtube/v3/channels",
           {
             params: {
-              // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-              key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+              key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
+              // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
               // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
               part: "snippet",
               id: channelId,

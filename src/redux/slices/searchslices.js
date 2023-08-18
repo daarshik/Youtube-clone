@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getVideoBySearch = createAsyncThunk(
-  "video/getVideoByCategory",
+  "search/getVideoByCategory",
   async (keyword, { rejectWithValue, getState, dispatch }) => {
     // console.log("gbsbsr");
 
@@ -38,13 +38,15 @@ const searchSlice = createSlice({
   name: "search",
   initialState: {
     items: [],
+    loading: false,
   },
   reducers: {},
 
   extraReducers: (builder) => {
     builder.addCase(getVideoBySearch.fulfilled, (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.items.push(...action.payload.items);
+      state.loading = true;
     });
   },
 });

@@ -21,11 +21,13 @@ const Sidebar = ({ sidebar, handleToggleSidebar, user }) => {
       className={sidebar ? "sidebar open" : "sidebar"}
       onClick={() => handleToggleSidebar(false)}
     >
-      <li>
-        <MdHome size={23} />
-        <span>Home</span>
-      </li>
-      <Link to="/feed/subscription">
+      <Link to="/" className="link">
+        <li>
+          <MdHome size={23} />
+          <span>Home</span>
+        </li>
+      </Link>
+      <Link to="/feed/subscription" className="link">
         <li>
           <MdSubscriptions size={23} />
           <span>Subscriptions</span>
@@ -53,9 +55,9 @@ const Sidebar = ({ sidebar, handleToggleSidebar, user }) => {
 
       <hr />
 
-      <li>
+      <li onClick={logout}>
         <MdExitToApp size={23} />
-        <span onClick={logout}>Logout</span>
+        <span>Logout</span>
       </li>
 
       <hr />
