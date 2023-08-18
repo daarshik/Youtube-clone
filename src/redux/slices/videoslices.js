@@ -2,6 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import video from "../../components/video/Video";
 
+const apiKey = "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA";
+
+// "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",;
+// AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0
+
 export const getPopularVideo = createAsyncThunk(
   "video/getPopularVideo",
   async (video, { rejectWithValue, getState, dispatch }) => {
@@ -12,9 +17,8 @@ export const getPopularVideo = createAsyncThunk(
         "https://youtube.googleapis.com/youtube/v3/videos",
         {
           params: {
-            // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
-            // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            key: apiKey,
+
             part: "snippet, contentDetails,statistics",
             chart: "mostPopular",
             regionCode: "IN",
@@ -47,9 +51,8 @@ export const getVideoByCategory = createAsyncThunk(
         "https://youtube.googleapis.com/youtube/v3/search",
         {
           params: {
-            // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
-            // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            key: apiKey,
+
             part: "snippet",
             maxResults: 20,
             pageToken: getState().video.popularVideo.nextPageToken,
@@ -78,9 +81,8 @@ export const getVideoById = createAsyncThunk(
         "https://youtube.googleapis.com/youtube/v3/videos",
         {
           params: {
-            // key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
-            // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
+            key: apiKey,
+
             part: "snippet, statistics",
             id: id,
           },
@@ -105,9 +107,7 @@ export const getRelatedVideos = createAsyncThunk(
         "https://youtube.googleapis.com/youtube/v3/search",
         {
           params: {
-            key: "AIzaSyA-vYrNxxK0xOtEWWgJ7EtMQbGjWLdczq0",
-            // key: "AIzaSyBE0lzlapm87jHUqPbHH5Vj2CxFRl55qwA",
-            // key: "AIzaSyCpvR-jj2iUcVPBheWa0Ao4521AeaQc6hE",
+            key: apiKey,
             part: "snippet",
             // relatedToVideoId: id,
             topicId: id,
@@ -148,10 +148,14 @@ const videoSlice = createSlice({
       ],
       nextPageToken: null,
       activeCategory: "All",
+      loading: false,
     },
-    videoDetails: {},
+    videoDetails: {
+      loading: false,
+    },
     relatedVideos: {
       items: [],
+      loading: false,
     },
   },
   reducers: {
@@ -169,6 +173,7 @@ const videoSlice = createSlice({
       //   ...state.popularVideo.items,
       //   ...action.payload.items,
       // ];
+      state.popularVideo.loading = true;
       state.popularVideo.nextPageToken = action.payload.nextPageToken;
     });
     builder.addCase(getVideoByCategory.fulfilled, (state, action) => {
@@ -179,15 +184,18 @@ const videoSlice = createSlice({
       //   ...action.payload.items,
       // ];
       state.popularVideo.items = action.payload.items;
+      state.popularVideo.loading = true;
       state.popularVideo.nextPageToken = action.payload.nextPageToken;
     });
     builder.addCase(getVideoById.fulfilled, (state, action) => {
       // console.log(state.popularVideo.videoDetails);
       state.videoDetails = action.payload.items[0];
+      state.videoDetails.loading = true;
     });
     builder.addCase(getRelatedVideos.fulfilled, (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.relatedVideos.items.push(...action.payload.items);
+      state.relatedVideos.loading = true;
     });
   },
 });

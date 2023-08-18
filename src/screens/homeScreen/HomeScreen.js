@@ -7,11 +7,12 @@ import {
   getPopularVideo,
   getVideoByCategory,
 } from "../../redux/slices/videoslices";
+import Loader from "../../components/loader/Loader";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
 
-  const { items, activeCategory } = useSelector(
+  const { items, activeCategory, loading } = useSelector(
     (state) => state.video.popularVideo
   );
 
@@ -45,14 +46,16 @@ const HomeScreen = () => {
     <Container>
       <CategoriesBar />
       <Row>
-        {items.map((item, index) => {
-          if (index === 0) return null;
-          return (
-            <Col lg={3} md={4} key={index}>
-              <Video item={item} />
-            </Col>
-          );
-        })}
+        {loading &&
+          items.map((item, index) => {
+            if (index === 0) return null;
+            return (
+              <Col lg={3} md={4} key={index}>
+                <Video item={item} />
+              </Col>
+            );
+          })}
+        : <Loader />
       </Row>
     </Container>
   );

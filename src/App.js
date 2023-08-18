@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import WatchScreen from "./screens/watchScreen/WatchScreen";
 import SearchScreen from "./screens/SearchScreen";
 import SubscriptionsScreen from "./screens/subscriptionsScreen/SubscriptionsScreen";
+import Loader from "./components/loader/Loader";
 
 export const Layout = ({ homescreen }) => {
   const [sidebar, toggleSidebar] = useState(false);
@@ -67,7 +68,6 @@ const App = () => {
   // console.log({displayName});
   return (
     <>
-      (
       <BrowserRouter>
         <Routes>
           <Route
@@ -117,7 +117,7 @@ const App = () => {
           />
         </Routes>
       </BrowserRouter>
-      )
+      <Loader />
     </>
   );
 };

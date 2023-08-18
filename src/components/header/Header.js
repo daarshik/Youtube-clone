@@ -24,7 +24,7 @@ const Header = ({ handleToggleSidebar }) => {
       />
 
       <img
-        src="http://pngimg.com/uploads/youtube/youtube_PNG2.png"
+        src="https://images.freeimages.com/fic/images/icons/2779/simple_icons/4096/youtube.png"
         alt=""
         className="header__logo"
       />
@@ -44,7 +44,7 @@ const Header = ({ handleToggleSidebar }) => {
         <MdNotifications size={28} />
         <MdApps size={28} />
         <img
-          src="http://pngimg.com/uploads/youtube/youtube_PNG2.png"
+          src="https://spng.pngfind.com/pngs/s/5-52097_avatar-png-pic-vector-avatar-icon-png-transparent.png"
           alt="avatar"
         />
       </div>
