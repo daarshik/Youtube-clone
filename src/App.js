@@ -128,7 +128,6 @@ const App = () => {
           />
         </Routes>
       </BrowserRouter>
-      <Loader />
     </>
   );
 };

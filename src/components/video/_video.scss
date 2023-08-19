@@ -3,7 +3,7 @@
 .video {
   margin-bottom: 1rem;
   padding: 0.7rem;
-
+  margin-left: 1rem;
   font-weight: 500;
   font-size: 0.9rem;
 
@@ -18,14 +18,14 @@
     }
 
     span {
-        position: absolute;
-        bottom: 0.3rem;
-        right: 0.3rem;
+      position: absolute;
+      bottom: 0.3rem;
+      right: 0.3rem;
 
-        padding: 0.2rem;
-        background: #080808ec;
-        border-radius: 3px;
-        }
+      padding: 0.2rem;
+      background: #080808ec;
+      border-radius: 3px;
+    }
   }
 
   &__title {
@@ -36,14 +36,13 @@
     // overflow: hidden;
     // white-space: nowrap; /* Prevents the text from wrapping to multiple lines */
     // text-overflow: ellipsis; /* Truncates the text with an ellipsis (...) when it overflows */
-  
   }
 
   &__details {
     display: flex;
     align-items: center;
     justify-content: start;
-    
+
     span {
       padding: 0.2rem;
     }
@@ -55,17 +54,15 @@
     margin: 0.5rem 0;
 
     img {
-        width: 36px;
-        height: 36px;
+      width: 36px;
+      height: 36px;
 
-        border-radius: 50%;
-        margin-right: 0.5rem;
+      border-radius: 50%;
+      margin-right: 0.5rem;
     }
 
     p {
-        margin-bottom: 0;
+      margin-bottom: 0;
     }
-
   }
-
 }

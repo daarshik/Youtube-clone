@@ -11,7 +11,7 @@ import {
 } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const Sidebar = ({ sidebar, handleToggleSidebar, user }) => {
+const Sidebar = ({ sidebar, handleToggleSidebar }) => {
   const logout = () => {
     window.open("http://localhost:5000/auth/logout", "_self");
   };
