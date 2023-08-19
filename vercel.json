@@ -2,10 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend",
-      "use": "@vercel/static-build"
-    },
-    {
       "src": "./index.js",
       "use": "@vercel/node"
     }
@@ -17,11 +13,11 @@
     },
     {
       "src": "/static/(.*)",
-      "dest": "/frontend/static/$1"
+      "dest": "/static/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/index.html"
+      "dest": "/index.html"
     }
   ]
 }
