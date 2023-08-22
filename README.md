@@ -1,3 +1,1 @@
-<div align="center">
-  <img alt="Demo" src="Login.png" />
-</div>
+![Login Image](assets\Login.png)
