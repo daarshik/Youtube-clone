@@ -1,1 +1,3 @@
-![Login Image](D:\yt-clone\assets\Login.png)
+<div align="center">
+  <img alt="Demo" src="assets\Login.png" />
+</div>
