@@ -1,5 +1,6 @@
 "use strict";
 
+// const webpk = require("webpack");
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
@@ -759,5 +760,10 @@ module.exports = function (webpackEnv) {
         os: require.resolve("os-browserify/browser"),
       },
     },
+    // plugins: [
+    //   new webpk.DefinePlugin({
+    //     "process.env.REACT_API_KEY": JSON.stringify(process.env.REACT_API_KEY),
+    //   }),
+    // ],
   };
 };

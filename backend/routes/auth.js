@@ -12,7 +12,13 @@ router.get("/login/success", (req, res) => {
       user: req.user,
       accessToken: req.accessToken,
     });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: "user not authenticated",
+    });
   }
+  res.end();
 });
 
 router.get("/login/failed", (req, res) => {

@@ -40,11 +40,11 @@ const CategoriesBar = () => {
 
   return (
     <div className="categoriesBar">
-      {keywords.map((item, i) => (
+      {keywords.map((item, index) => (
         <span
-          key={i}
+          key={index}
           onClick={() => handleClick(item)}
-          className={activeElement == i ? "active" : ""}
+          className={activeElement == index ? "active" : ""}
         >
           {item}
         </span>
